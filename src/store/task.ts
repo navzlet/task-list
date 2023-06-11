@@ -68,6 +68,37 @@ class Task {
     },
   ];
 
+  getId() {
+    return 111;
+  }
+
+  addTask(name: string, content: string) {
+    this.taskList.push({
+      id: this.getId(),
+      name: name,
+      content: content,
+      isSelected: false,
+      subtasks: false,
+    });
+  }
+  // getFiniteValue(obj: any) {
+  //   getProp(obj);
+
+  //   function getProp(o: any) {
+  //     for (var prop in o) {
+  //       if (typeof o[prop] === "object") {
+  //         //если есть вложенность
+  //         getProp(o[prop]);
+  //       } else {
+  //         //если нет вложенности
+  //         console.log("Finite value: ", o[prop]);
+  //       }
+  //     }
+  //   }
+  // }
+
+  selectTasks(id: number) {}
+
   constructor() {
     makeAutoObservable(this);
   }
