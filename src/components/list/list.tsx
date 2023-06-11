@@ -1,14 +1,13 @@
 import React from "react";
-import { Task } from "../task/task";
+import { TaskList } from "../taskList/taskList";
 import task from "../../store/task";
 import { observer } from "mobx-react-lite";
 
 export const List = observer(() => {
+  console.log(task);
   return (
     <div>
-      {task.taskList.map((el: any) => {
-        return <Task task={el} />;
-      })}
+      <TaskList task={task.taskList} />
     </div>
   );
 });
