@@ -1,23 +1,17 @@
-import React, { Children, useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import "./taskList.scss";
 import { Task } from "../task/task";
 
-interface Itask {
-  name: string;
-  id: number;
-  content: string;
-  subtask: boolean | Array<Itask>;
+interface ItaskListProps {
+  task: Array<Ttask>;
 }
 
-export const TaskList = observer(({ task }: any) => {
-  // const [subTasks, setSubTasks] = useState(task.subtasks);
-  // const [isOpened, setIsOpened] = useState(false);
-
+export const TaskList: React.FC<ItaskListProps> = observer(({ task }) => {
   return (
-    <div className="task">
-      {task.map((el: any) => {
-        return <Task task={el} />;
+    <div className="taskList">
+      {task.map((el: Ttask) => {
+        return <Task key={el.id} task={el} />;
       })}
     </div>
   );
