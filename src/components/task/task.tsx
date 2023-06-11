@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { TaskList } from "../taskList/taskList";
 import "./task.scss";
+import StoreTask from "../../store/task";
+import { observer } from "mobx-react-lite";
 import TaskIcon from "../../assets/taskIcon";
 
 interface ItaskProps {
   task: Ttask;
 }
 
-export const Task: React.FC<ItaskProps> = ({ task }) => {
+export const Task: React.FC<ItaskProps> = observer(({ task }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
     <div className={task.isSelected ? "task task_selected" : "task"}>
-      <div className="task__content">
+      <div
+        className="task__content"
+        onClick={() => StoreTask.setDisplayingTask(task)}
+      >
         {/* <div className="task__checkbox"></div> */}
         {task.subtasks && (
           <TaskIcon
@@ -31,4 +36,4 @@ export const Task: React.FC<ItaskProps> = ({ task }) => {
       </div>
     </div>
   );
-};
+});

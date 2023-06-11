@@ -1,6 +1,11 @@
 import { makeAutoObservable } from "mobx";
 
 class Task {
+  displayingTask: Ttask | null = null;
+  setDisplayingTask(newTask: Ttask) {
+    this.displayingTask = newTask;
+  }
+
   taskList: Array<Ttask> = [
     {
       name: "task1",
