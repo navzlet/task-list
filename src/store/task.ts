@@ -82,6 +82,24 @@ class Task {
     });
   }
 
+  deleteTasks() {
+    const iterateArr = function (taskList: any) {
+      for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].subtasks !== false) {
+          iterateArr(taskList[i].subtasks);
+          if (taskList[i].subtasks.length === 0) {
+            taskList[i].subtasks = false;
+          }
+        }
+        if (taskList[i].isSelected === true) {
+          taskList.splice(i, 1);
+          iterateArr(taskList);
+        }
+      }
+    };
+    iterateArr(this.taskList);
+  }
+
   selectTasks(id: number) {
     let iterateTaskList = function (tasksList: Array<Ttask>, id: number) {
       let action = function (task: Ttask, id: number) {

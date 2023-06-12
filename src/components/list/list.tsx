@@ -9,6 +9,7 @@ export const List = observer(() => {
     <div className="list">
       <TaskList task={task.taskList} />
       <button onClick={() => task.addTask("test", "test")}>Add new task</button>
+      <button onClick={() => task.deleteTasks()}>Delete selected tasks</button>
     </div>
   );
 });
