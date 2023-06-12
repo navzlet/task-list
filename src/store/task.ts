@@ -18,33 +18,33 @@ class Task {
       name: "task2",
       id: 2,
       content: "task2Content",
-      isSelected: true,
+      isSelected: false,
       subtasks: [
         {
           name: "task2.1",
           id: 3,
           content: "taskContent",
-          isSelected: true,
+          isSelected: false,
           subtasks: false,
         },
         {
           name: "task2.2",
           id: 4,
           content: "taskContent",
-          isSelected: true,
+          isSelected: false,
           subtasks: [
             {
               name: "task2.2.1",
               id: 5,
               content: "taskContent",
-              isSelected: true,
+              isSelected: false,
               subtasks: false,
             },
             {
               name: "task2.2.2",
               id: 6,
               content: "cheezeee",
-              isSelected: true,
+              isSelected: false,
               subtasks: false,
             },
           ],
@@ -81,23 +81,44 @@ class Task {
       subtasks: false,
     });
   }
-  // getFiniteValue(obj: any) {
-  //   getProp(obj);
 
-  //   function getProp(o: any) {
-  //     for (var prop in o) {
-  //       if (typeof o[prop] === "object") {
-  //         //если есть вложенность
-  //         getProp(o[prop]);
-  //       } else {
-  //         //если нет вложенности
-  //         console.log("Finite value: ", o[prop]);
-  //       }
-  //     }
-  //   }
-  // }
+  selectTasks(id: number) {
+    let iterateTaskList = function (tasksList: Array<Ttask>, id: number) {
+      let action = function (task: Ttask, id: number) {
+        if (task.id === id) {
+          //для задачи
+          task.isSelected
+            ? (task.isSelected = false)
+            : (task.isSelected = true);
+          if (task.subtasks && task.isSelected) {
+            taskAction(task.subtasks);
+          }
+        }
+      };
 
-  selectTasks(id: number) {}
+      let taskAction = function (tasks: Array<Ttask>) {
+        tasks.map((el) => {
+          //для подзадач
+          el.isSelected = true;
+          if (el.subtasks) {
+            taskAction(el.subtasks);
+          }
+        });
+      };
+
+      let currTask = function (task: Ttask, id: number) {
+        if (task.subtasks) {
+          action(task, id);
+          iterateTaskList(task.subtasks, id);
+        } else {
+          action(task, id);
+        }
+      };
+
+      tasksList.map((el) => currTask(el, id));
+    };
+    iterateTaskList(this.taskList, id);
+  }
 
   constructor() {
     makeAutoObservable(this);
