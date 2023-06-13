@@ -7,11 +7,11 @@ import TaskIcon from "../../assets/taskIcon";
 import Checkbox_selected from "../../assets/checkbox_selected";
 import Checkbox_notSelected from "../../assets/checkbox_notSelected";
 
-interface ItaskProps {
+interface ITaskProps {
   task: Ttask;
 }
 
-export const Task: React.FC<ItaskProps> = observer(({ task }) => {
+export const Task: React.FC<ITaskProps> = observer(({ task }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   return (

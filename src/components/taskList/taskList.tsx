@@ -3,11 +3,11 @@ import { observer } from "mobx-react-lite";
 import "./taskList.scss";
 import { Task } from "../task/task";
 
-interface ItaskListProps {
+interface ITaskListProps {
   task: Array<Ttask>;
 }
 
-export const TaskList: React.FC<ItaskListProps> = observer(({ task }) => {
+export const TaskList: React.FC<ITaskListProps> = observer(({ task }) => {
   return (
     <div className="taskList">
       {task.map((el: Ttask) => {
