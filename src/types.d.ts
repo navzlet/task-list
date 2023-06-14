@@ -1,5 +1,5 @@
 type Ttask = {
-  name: any;
+  name: string;
   id: number;
   content: string;
   isSelected: boolean;

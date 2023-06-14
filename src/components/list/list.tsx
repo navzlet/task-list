@@ -4,6 +4,7 @@ import task from "../../store/task";
 import modal from "../../store/modal";
 import { observer } from "mobx-react-lite";
 import "./list.scss";
+import localstorage from "../../store/localstorage";
 
 interface IList {
   openModal: () => void;

@@ -6,7 +6,11 @@ class Task {
   setDisplayingTask(newTask: Ttask | null) {
     this.displayingTask = newTask;
   }
-  taskList: Array<Ttask> = LocalStorage.getTaskList();
+
+  taskList = LocalStorage.getTaskList();
+  // getTaskList() {
+  //   this.taskList = LocalStorage.getTaskList();
+  // }
   // taskList: Array<Ttask> = [
   //   {
   //     name: "task1",
@@ -80,14 +84,7 @@ class Task {
     } else if (content === "") {
       alert("Enter task content, please!");
     } else {
-      let id = this.getId();
-      this.taskList.push({
-        id: id,
-        name: name,
-        content: content,
-        isSelected: false,
-        subtasks: false,
-      });
+      LocalStorage.addTask(name, content);
     }
   }
 
@@ -97,88 +94,17 @@ class Task {
     } else if (content === "") {
       alert("Enter task content, please!");
     } else {
-      let id = this.getId();
-      let subtaskObj = {
-        id: id,
-        name: name,
-        content: content,
-        isSelected: false,
-        subtasks: false,
-      };
-      console.log(subtaskObj);
-      const iterateArr = function (taskList: any) {
-        for (let i = 0; i < taskList.length; i++) {
-          if (taskList[i].id === parTaskId) {
-            if (taskList[i].subtasks !== false) {
-              taskList[i].subtasks.push(subtaskObj);
-            } else {
-              taskList[i].subtasks = [subtaskObj];
-            }
-          } else {
-            iterateArr(taskList[i].subtasks);
-          }
-        }
-      };
-
-      iterateArr(this.taskList);
+      LocalStorage.addSubtask(name, content, parTaskId);
       // console.log(name, content, parTaskId);
     }
   }
 
   deleteTasks() {
-    const iterateArr = function (taskList: any) {
-      for (let i = 0; i < taskList.length; i++) {
-        if (taskList[i].subtasks !== false) {
-          iterateArr(taskList[i].subtasks);
-          if (taskList[i].subtasks.length === 0) {
-            taskList[i].subtasks = false;
-          }
-        }
-        if (taskList[i].isSelected === true) {
-          taskList.splice(i, 1);
-          iterateArr(taskList);
-        }
-      }
-    };
-    iterateArr(this.taskList);
+    LocalStorage.deleteTasks();
   }
 
   selectTasks(id: number) {
-    let iterateTaskList = function (tasksList: Array<Ttask>, id: number) {
-      let action = function (task: Ttask, id: number) {
-        if (task.id === id) {
-          //для задачи
-          task.isSelected
-            ? (task.isSelected = false)
-            : (task.isSelected = true);
-          if (task.subtasks && task.isSelected) {
-            taskAction(task.subtasks);
-          }
-        }
-      };
-
-      let taskAction = function (tasks: Array<Ttask>) {
-        tasks.map((el) => {
-          //для подзадач
-          el.isSelected = true;
-          if (el.subtasks) {
-            taskAction(el.subtasks);
-          }
-        });
-      };
-
-      let currTask = function (task: Ttask, id: number) {
-        if (task.subtasks) {
-          action(task, id);
-          iterateTaskList(task.subtasks, id);
-        } else {
-          action(task, id);
-        }
-      };
-
-      tasksList.map((el) => currTask(el, id));
-    };
-    iterateTaskList(this.taskList, id);
+    LocalStorage.selectTasks(id);
   }
 
   constructor() {
