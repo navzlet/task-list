@@ -82,6 +82,10 @@ class Task {
     });
   }
 
+  addSubtask(name: string, content: string, parTaskId: number) {
+    console.log(name, content, parTaskId);
+  }
+
   deleteTasks() {
     const iterateArr = function (taskList: any) {
       for (let i = 0; i < taskList.length; i++) {

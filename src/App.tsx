@@ -8,6 +8,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const CloseModal = () => setIsModalOpen(false);
   const OpenModal = () => setIsModalOpen(true);
+
   return (
     <div className="App">
       <List openModal={OpenModal} />
