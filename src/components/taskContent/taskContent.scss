@@ -1,3 +1,21 @@
 .taskContent {
-  width: 400px;
+  background-color: rgb(235, 235, 235);
+  width: 50vw;
+  padding: 40px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.taskContent__button {
+  align-self: flex-start;
+}
+
+.taskContent__header {
+  font-weight: 500;
+}
+
+.taskContent__name {
+  margin-bottom: 50px;
 }

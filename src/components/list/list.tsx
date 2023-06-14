@@ -12,19 +12,30 @@ interface IList {
 export const List = observer((props: IList) => {
   return (
     <div className="list">
-      <TaskList task={task.taskList} />
-      <button
-        onClick={() => {
-          modal.actionContext = "add_task";
-          modal.taskName = "";
-          modal.taskContent = "";
-          modal.modalHeader = "Add new task";
-          props.openModal();
-        }}
-      >
-        Add new task
-      </button>
-      <button onClick={() => task.deleteTasks()}>Delete selected tasks</button>
+      <div className="list__content">
+        {task.taskList.length ? (
+          <TaskList task={task.taskList} />
+        ) : (
+          <div>Add some tasks!</div>
+        )}
+      </div>
+      <div className="list__buttons">
+        <button
+          className="list__button"
+          onClick={() => {
+            modal.actionContext = "add_task";
+            modal.taskName = "";
+            modal.taskContent = "";
+            modal.modalHeader = "Add new task";
+            props.openModal();
+          }}
+        >
+          Add new task
+        </button>
+        <button className="list__button" onClick={() => task.deleteTasks()}>
+          Delete selected tasks
+        </button>
+      </div>
     </div>
   );
 });
