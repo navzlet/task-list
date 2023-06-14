@@ -16,9 +16,8 @@ export const List = observer((props: IList) => {
       <button
         onClick={() => {
           modal.actionContext = "add_task";
-          modal.taskName = "test";
-          modal.taskContent = "test";
-          modal.id = 0;
+          modal.taskName = "";
+          modal.taskContent = "";
           modal.modalHeader = "Add new task";
           props.openModal();
         }}

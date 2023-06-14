@@ -6,7 +6,7 @@ class Modal {
   actionContext: string = "";
   taskName: string = "";
   taskContent: string = "";
-  id?: number = 0;
+  id?: number;
 
   modalAction = () => {
     if (this.actionContext === "add_task") {

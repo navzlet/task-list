@@ -11,20 +11,26 @@ interface ITaskContent {
 export const TaskContent = observer((props: ITaskContent) => {
   return (
     <div className="taskContent">
-      <div>{task.displayingTask?.name}</div>
-      <div>{task.displayingTask?.content}</div>
-      <button
-        onClick={() => {
-          modal.actionContext = "add_subtask";
-          modal.taskName = "test";
-          modal.taskContent = "test";
-          modal.id = 7;
-          modal.modalHeader = "Add new subtask";
-          props.openModal();
-        }}
-      >
-        Add new subtask
-      </button>
+      {task.displayingTask ? (
+        <div>
+          <div>{task.displayingTask?.name}</div>
+          <div>{task.displayingTask?.content}</div>
+          <button
+            onClick={() => {
+              modal.actionContext = "add_subtask";
+              modal.taskName = "";
+              modal.taskContent = "";
+              modal.id = task.displayingTask?.id;
+              modal.modalHeader = "Add new subtask";
+              props.openModal();
+            }}
+          >
+            Add new subtask
+          </button>
+        </div>
+      ) : (
+        <div>select task</div>
+      )}
     </div>
   );
 });

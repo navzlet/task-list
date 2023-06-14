@@ -1,89 +1,128 @@
 import { makeAutoObservable } from "mobx";
+import LocalStorage from "./localstorage";
 
 class Task {
   displayingTask: Ttask | null = null;
-  setDisplayingTask(newTask: Ttask) {
+  setDisplayingTask(newTask: Ttask | null) {
     this.displayingTask = newTask;
   }
-
-  taskList: Array<Ttask> = [
-    {
-      name: "task1",
-      id: 1,
-      content: "task1Content",
-      isSelected: false,
-      subtasks: false,
-    },
-    {
-      name: "task2",
-      id: 2,
-      content: "task2Content",
-      isSelected: false,
-      subtasks: [
-        {
-          name: "task2.1",
-          id: 3,
-          content: "taskContent",
-          isSelected: false,
-          subtasks: false,
-        },
-        {
-          name: "task2.2",
-          id: 4,
-          content: "taskContent",
-          isSelected: false,
-          subtasks: [
-            {
-              name: "task2.2.1",
-              id: 5,
-              content: "taskContent",
-              isSelected: false,
-              subtasks: false,
-            },
-            {
-              name: "task2.2.2",
-              id: 6,
-              content: "cheezeee",
-              isSelected: false,
-              subtasks: false,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "task3",
-      id: 7,
-      content: "task3Content",
-      isSelected: false,
-      subtasks: [
-        {
-          name: "task3.1",
-          id: 8,
-          content: "task1Content",
-          isSelected: false,
-          subtasks: false,
-        },
-      ],
-    },
-  ];
+  taskList: Array<Ttask> = LocalStorage.getTaskList();
+  // taskList: Array<Ttask> = [
+  //   {
+  //     name: "task1",
+  //     id: 1,
+  //     content: "task1Content",
+  //     isSelected: false,
+  //     subtasks: false,
+  //   },
+  //   {
+  //     name: "task2",
+  //     id: 2,
+  //     content: "task2Content",
+  //     isSelected: false,
+  //     subtasks: [
+  //       {
+  //         name: "task2.1",
+  //         id: 3,
+  //         content: "taskContent",
+  //         isSelected: false,
+  //         subtasks: false,
+  //       },
+  //       {
+  //         name: "task2.2",
+  //         id: 4,
+  //         content: "taskContent",
+  //         isSelected: false,
+  //         subtasks: [
+  //           {
+  //             name: "task2.2.1",
+  //             id: 5,
+  //             content: "taskContent",
+  //             isSelected: false,
+  //             subtasks: false,
+  //           },
+  //           {
+  //             name: "task2.2.2",
+  //             id: 6,
+  //             content: "cheezeee",
+  //             isSelected: false,
+  //             subtasks: false,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: "task3",
+  //     id: 7,
+  //     content: "task3Content",
+  //     isSelected: false,
+  //     subtasks: [
+  //       {
+  //         name: "task3.1",
+  //         id: 8,
+  //         content: "task1Content",
+  //         isSelected: false,
+  //         subtasks: false,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   getId() {
-    return 111;
+    let id = LocalStorage.getId();
+    return id;
   }
 
   addTask(name: string, content: string) {
-    this.taskList.push({
-      id: this.getId(),
-      name: name,
-      content: content,
-      isSelected: false,
-      subtasks: false,
-    });
+    if (name === "") {
+      alert("Enter task name, please!");
+    } else if (content === "") {
+      alert("Enter task content, please!");
+    } else {
+      let id = this.getId();
+      this.taskList.push({
+        id: id,
+        name: name,
+        content: content,
+        isSelected: false,
+        subtasks: false,
+      });
+    }
   }
 
   addSubtask(name: string, content: string, parTaskId: number) {
-    console.log(name, content, parTaskId);
+    if (name === "") {
+      alert("Enter task name, please!");
+    } else if (content === "") {
+      alert("Enter task content, please!");
+    } else {
+      let id = this.getId();
+      let subtaskObj = {
+        id: id,
+        name: name,
+        content: content,
+        isSelected: false,
+        subtasks: false,
+      };
+      console.log(subtaskObj);
+      const iterateArr = function (taskList: any) {
+        for (let i = 0; i < taskList.length; i++) {
+          if (taskList[i].id === parTaskId) {
+            if (taskList[i].subtasks !== false) {
+              taskList[i].subtasks.push(subtaskObj);
+            } else {
+              taskList[i].subtasks = [subtaskObj];
+            }
+          } else {
+            iterateArr(taskList[i].subtasks);
+          }
+        }
+      };
+
+      iterateArr(this.taskList);
+      // console.log(name, content, parTaskId);
+    }
   }
 
   deleteTasks() {
