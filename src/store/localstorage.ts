@@ -32,7 +32,6 @@ class LocalStorage {
       isSelected: false,
       subtasks: false,
     });
-    // const taskList = this.getTaskList();
     localStorage.setItem("taskList", JSON.stringify(this.taskList));
   }
 
@@ -45,7 +44,6 @@ class LocalStorage {
       isSelected: false,
       subtasks: false,
     };
-    console.log(subtaskObj);
     const iterateArr = function (taskList: any) {
       for (let i = 0; i < taskList.length; i++) {
         if (taskList[i].id === parTaskId) {
@@ -88,7 +86,6 @@ class LocalStorage {
     let iterateTaskList = function (tasksList: Array<Ttask>, id: number) {
       let action = function (task: Ttask, id: number) {
         if (task.id === id) {
-          //для задачи
           task.isSelected
             ? (task.isSelected = false)
             : (task.isSelected = true);
@@ -100,7 +97,6 @@ class LocalStorage {
 
       let taskAction = function (tasks: Array<Ttask>) {
         tasks.map((el) => {
-          //для подзадач
           el.isSelected = true;
           if (el.subtasks) {
             taskAction(el.subtasks);

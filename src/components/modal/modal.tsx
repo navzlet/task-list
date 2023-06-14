@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./modal.scss";
 import modal from "../../store/modal";
-import task from "../../store/task";
 import { observer } from "mobx-react-lite";
 
 interface IModalProps {
@@ -10,7 +9,6 @@ interface IModalProps {
 }
 
 export const Modal = observer((props: IModalProps) => {
-  const [taskNameInput, setTaskNameInput] = useState("");
   if (!props.isModalOpen) return null;
   return (
     <div className="modal">
