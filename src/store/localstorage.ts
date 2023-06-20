@@ -83,41 +83,75 @@ class LocalStorage {
   }
 
   selectTasks(id: number) {
+    let thisTaskList = this.taskList;
+    let removeTasks = function (id: number) {
+      let iterateRemovedTasks = function (arr: Array<Ttask>, id: number) {
+        let remove = function (task: Ttask, id: number) {
+          if (task.id === id) {
+            task.isSelected = false;
+          }
+        };
+
+        let currRemove = function (task: Ttask, id: number) {
+          if (task.subtasks) {
+            idArr.push(task.id);
+            remove(task, id);
+            iterateRemovedTasks(task.subtasks, id);
+          } else {
+            remove(task, id);
+          }
+        };
+
+        arr.map((el: Ttask) => {
+          currRemove(el, id);
+        });
+      };
+      iterateRemovedTasks(thisTaskList, id);
+    };
+    let idArr: Array<number> = [];
     let iterateTaskList = function (tasksList: Array<Ttask>, id: number) {
       let action = function (task: Ttask, id: number) {
         if (task.id === id) {
-          task.isSelected
-            ? (task.isSelected = false)
-            : (task.isSelected = true);
-          if (task.subtasks && task.isSelected) {
-            taskAction(task.subtasks);
+          if (task.isSelected) {
+            task.isSelected = false;
+            idArr.map((el) => {
+              removeTasks(el);
+            });
+          } else task.isSelected = true;
+          if (task.subtasks) {
+            taskAction(task.subtasks, task.isSelected);
           }
         }
       };
 
-      let taskAction = function (tasks: Array<Ttask>) {
+      let taskAction = function (tasks: Array<Ttask>, selectionFlag: boolean) {
         tasks.map((el) => {
-          el.isSelected = true;
+          el.isSelected = selectionFlag;
           if (el.subtasks) {
-            taskAction(el.subtasks);
+            taskAction(el.subtasks, selectionFlag);
           }
         });
       };
 
       let currTask = function (task: Ttask, id: number) {
         if (task.subtasks) {
+          idArr.push(task.id);
           action(task, id);
           iterateTaskList(task.subtasks, id);
         } else {
           action(task, id);
+          idArr = [];
         }
       };
 
-      tasksList.map((el) => currTask(el, id));
+      tasksList.map((el) => {
+        currTask(el, id);
+      });
     };
-    iterateTaskList(this.taskList, id);
+    iterateTaskList(thisTaskList, id);
     localStorage.setItem("taskList", JSON.stringify(this.taskList));
   }
+
   constructor() {
     makeAutoObservable(this);
   }
